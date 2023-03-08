@@ -4,4 +4,5 @@
 
 # not proj
 poetry.lock
-starship_bot/.env
+.env
+__pycache__
