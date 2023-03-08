@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "telegram-client"
+version = "0.1.0"
+description = "Client for starship game, telgram-bot"
+authors = ["Alchemmist <anton.ingrish@gmail.com>", "Mark Meliksetyan <markmelix.com>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+packages = [{include="telegram_client"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-telegram-bot = "^20.1"
+jinja2 = "^3.1.2"
+
+
+[build-system]
+requires = ["poetry-core>=1.4.0"]
+build-backend = "poetry.core.masonry.api"

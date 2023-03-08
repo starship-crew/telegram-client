@@ -1,0 +1,7 @@
+# ide folders
+.vscode
+.idea
+
+# not proj
+poetry.lock
+starship_bot/.env
