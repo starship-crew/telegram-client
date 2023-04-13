@@ -1,5 +1,5 @@
 from create_bot import  dp
-from handlers import start
+from handlers import start, help_, shop, fight, upgrade
 
 import logging
 from aiogram import executor
@@ -10,6 +10,10 @@ logging.basicConfig(level=logging.INFO)
 
 def main():
     start.register_handlers_start(dp)
+    help_.register_handlers_help(dp)
+    shop.register_handlers_shop(dp)
+    fight.register_handlers_fight(dp)
+    upgrade.register_handlers_upgrade(dp)
 
 
 if __name__ == '__main__':

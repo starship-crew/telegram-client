@@ -1,5 +1,5 @@
 def create_crew(crew_name: str) -> bool:
-    server_response = "error"
+    server_response = "sucsess"
     '''
     TO-DO
     Send request to db

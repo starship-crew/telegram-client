@@ -1,5 +1,7 @@
 from template import render_template
 from services.all import create_crew
+from .help_ import cmd_help
+from keyboard import kb
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -20,15 +22,20 @@ async def cmd_start(message: types.Message):
 #@dp.message_handler(state=NewCerw.crew_name)
 async def get_crew_name(message: types.Message, state: FSMContext):
     crew_name = message.text
-    if not create_crew(crew_name):
-        await message.reply(render_template("name_error.j2"))
-        tmp = message.text
-        while crew_name == tmp:
-            tmp = message.text
-        await get_crew_name(message, state)
+    while not create_crew(crew_name):
+        await message.reply(render_template("name_error.j2"), 
+                            parse_mode="HTML")
+        while message.text == crew_name:
+            crew_name = message.text
 
     await state.finish()
-    await message.answer(render_template("sucsess_start.j2"))
+    content = {
+            "crew_name": crew_name, 
+            }
+    await message.answer(render_template("sucsess_start.j2", content), 
+                         parse_mode="HTML", 
+                         reply_markup=kb)
+    await cmd_help(message)
 
 
 def register_handlers_start(dp: Dispatcher):
