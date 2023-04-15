@@ -21,14 +21,14 @@ async def cmd_start(message: types.Message):
 
 #@dp.message_handler(state=NewCerw.crew_name)
 async def get_crew_name(message: types.Message, state: FSMContext):
-    crew_name = message.text
-    while not create_crew(crew_name):
-        await message.reply(render_template("name_error.j2"), 
-                            parse_mode="HTML")
-        while message.text == crew_name:
-            crew_name = message.text
-
+    crew_name, user_id = message.text, message.from_id
+    #check_newness_user(user_id)
+    
+    if not create_crew(crew_name):
+        return await message.reply(render_template("name_error.j2"), parse_mode="HTML")
+    
     await state.finish()
+    print(message.from_user.id)
     content = {
             "crew_name": crew_name, 
             }
@@ -36,7 +36,6 @@ async def get_crew_name(message: types.Message, state: FSMContext):
                          parse_mode="HTML", 
                          reply_markup=kb)
     await cmd_help(message)
-
 
 def register_handlers_start(dp: Dispatcher):
     dp.register_message_handler(cmd_start, commands=["start"], state=None)

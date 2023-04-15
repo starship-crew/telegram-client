@@ -8,6 +8,11 @@ from aiogram import executor
 logging.basicConfig(level=logging.INFO)
 
 
+from template import render_template
+
+from aiogram import types
+
+
 def main():
     start.register_handlers_start(dp)
     help_.register_handlers_help(dp)
