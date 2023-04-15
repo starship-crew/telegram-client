@@ -10,4 +10,4 @@ async def cmd_shop(message: types.Message):
 
 
 def register_handlers_shop(dp: Dispatcher):
-    dp.register_message_handler(cmd_shop, commands=["Магазин🛒"], state=None)
+    dp.register_message_handler(cmd_shop, text="🛒 Магазин", state="*")
