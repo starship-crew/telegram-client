@@ -1,0 +1,5 @@
+CREATE TABLE bot_user (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    telegram_id CHAR(9) UNIQUE NOT NULL, 
+    token CHAR(32) UNIQUE NOT NULL
+);
