@@ -10,4 +10,4 @@ async def cmd_upgrade(message: types.Message):
 
 
 def register_handlers_upgrade(dp: Dispatcher):
-    dp.register_message_handler(cmd_upgrade, commands=["Гараж🔧"], state=None)
+    dp.register_message_handler(cmd_upgrade, text="🔧 Гараж", state="*")

@@ -10,4 +10,4 @@ async def cmd_fight(message: types.Message):
 
 
 def register_handlers_fight(dp: Dispatcher):
-    dp.register_message_handler(cmd_fight, commands=["Дуэль🔫"], state=None)
+    dp.register_message_handler(cmd_fight, text="🔫 Дуэль", state='*')

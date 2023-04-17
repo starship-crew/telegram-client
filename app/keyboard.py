@@ -2,8 +2,8 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
 button_store = KeyboardButton("🛒 Магазин")
-button_upgrade = KeyboardButton("/Гараж🔧")
-button_fight = KeyboardButton("/Дуэль🔫")
+button_upgrade = KeyboardButton("🔧 Гараж")
+button_fight = KeyboardButton("🔫 Дуэль")
 
 
 kb = ReplyKeyboardMarkup(resize_keyboard=True)
