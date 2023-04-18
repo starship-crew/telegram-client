@@ -18,7 +18,9 @@ class NewCerw(StatesGroup):
 async def cmd_start(message: types.Message):
     user_id = str(message.from_id)
     if db.check_newness_user(user_id):
-        await message.reply(render_template("not_new_user.j2"), parse_mode="HTML")
+        await message.reply(render_template("not_new_user.j2"),
+                            parse_mode="HTML",
+                            reply_markup=kb)
         await cmd_help(message)
     else:
         await NewCerw.crew_name.set()
