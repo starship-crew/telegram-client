@@ -12,10 +12,10 @@ def check_newness_user(telegram_id: str) -> bool:
     return False
 
 
-def save_new_user(telegram_id: str, TOKEN: str) -> None:
+def save_new_user(telegram_id: str, API_TOKEN: str) -> None:
     cur = con.cursor()
     cur.execute(
             f"""INSERT INTO bot_user(telegram_id, token) 
-            VALUES ('{telegram_id}', '{TOKEN}')"""
+            VALUES ('{telegram_id}', '{API_TOKEN}')"""
             )
     con.commit()

@@ -3,6 +3,7 @@ from services import api
 from services import db
 from .help_ import cmd_help
 from keyboard import kb
+import config
 
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -34,13 +35,17 @@ async def get_crew_name(message: types.Message, state: FSMContext):
     if response["status"] == -1:
         return await message.reply(render_template("name_error.j2"), parse_mode="HTML")
     
-    # save_crew
-    TOKEN = response["token"]
-    db.save_new_user(user_id, TOKEN)
+    # save api token
+    API_TOKEN = response["token"]
+    db.save_new_user(user_id, API_TOKEN)
+    config.API_TOKEN = API_TOKEN
+
+    # save crew
     await state.finish()
     content = {
             "crew_name": crew_name, 
             }
+    config.CREW_NAME = crew_name
 
     # send message
     await message.answer(render_template("sucsess_start.j2", content), 
