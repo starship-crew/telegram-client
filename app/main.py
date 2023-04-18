@@ -1,5 +1,13 @@
 from create_bot import  dp
-from handlers import start, help_, ship, shop, fight, upgrade
+from handlers import (
+        start, 
+        help_, 
+        ship, 
+        shop, 
+        fight, 
+        upgrade, 
+        wallet, 
+    )
 
 import logging
 from aiogram import executor
@@ -19,6 +27,7 @@ def main():
     fight.register_handlers_fight(dp)
     upgrade.register_handlers_upgrade(dp)
     ship.register_handlers_ship(dp)
+    wallet.register_handlers_wallet(dp)
 
 
 if __name__ == '__main__':

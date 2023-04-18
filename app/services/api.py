@@ -29,3 +29,13 @@ def get_ship(API_TOKEN: str) -> dict:
                 "detail_limit": 5, 
                }
     return response
+
+
+def get_crew(API_TOKEN: str) -> dict:
+    request = f"https://starship.com/crew/{API_TOKEN}/crew"
+    #response = requests.get(request).json
+    response = {
+                "crew_name": "Хомяки",  
+                "currency": 234, 
+               }
+    return response
