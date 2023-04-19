@@ -21,3 +21,10 @@ def get_crew(API_TOKEN: str) -> dict:
     #response = requests.get(request).json
     response = api_response_example.GET_CREW
     return response
+
+
+def get_garage(API_TOKEN: str) -> dict:
+    request = f"https://starship.com/crew/{API_TOKEN}/garage"
+    #response = requests.get(request).json
+    response = api_response_example.GARAGE
+    return response

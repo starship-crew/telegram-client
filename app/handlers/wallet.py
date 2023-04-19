@@ -1,5 +1,5 @@
 from template import render_template
-from services import api
+from services import api, db
 import config
 
 from aiogram import types, Dispatcher
@@ -7,7 +7,9 @@ from aiogram import types, Dispatcher
 
 
 async def cmd_wallet(message: types.Message):
-    response = api.get_crew(config.API_TOKEN)
+    response = api.get_crew(
+                db.get_api_token(str(message.from_id))
+            )
     await message.answer(render_template("wallet.j2", data=response), 
                          parse_mode="HTML")
 

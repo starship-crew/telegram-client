@@ -1,0 +1,50 @@
+{% set ignore_item =  ["id", 
+                       "order", 
+                       "upgrade_cost", 
+                       "type_id", 
+                       "name", 
+                       "kind", 
+                       "required", ]  
+%} 
+{% set human_name = {"health": "жизнеспособность", 
+                     "cost": "цена в Qk", 
+                     "order": "приорететность", 
+                     "level": "уровень", 
+                     "upgrade_cost": "цена прокачки в Qk", 
+                     "name": "название", 
+                     "description": "описание", 
+                     "power_generation": "вырабатываемая энергия", 
+                     "power_consumption": "потребляемая энергия", 
+                     "accel_factor": "коэф. ускорения загрузки дуэли", 
+                     "mobility": "добавляет к мобильности", 
+                     "stability": "добавляет к стабильности", 
+                     "damage_absorption": "поглащение урона", 
+                     "damage": "урон", 
+                    }
+%}
+
+
+<b>{{ detail_with_emoji[category_name] }}</b><br>
+-------------------<br>
+{% for detail in details %}
+
+    <b>название:</b> {{ detail["name"] }}<br>
+
+    {% for key, value in detail.items() %}
+        {% if key == "description" %}
+
+            {{ human_name[key] }}: <i>{{ value }}</i> <br>
+
+        {% elif (key not in ignore_item) and (value) %}
+
+            {{ human_name[key] }}: {{ value }}<br>
+
+        {% endif %}
+    {% endfor %}
+
+    {% if detail["required"] %}
+        <b>детяль является обязательной</b><br>
+    {% endif %}
+
+    -------------------<br>
+{% endfor %}
