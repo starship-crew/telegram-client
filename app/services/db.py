@@ -1,21 +1,17 @@
-from create_bot import con
+from data.db_session import create_session
+from data.bot_user import User
 
 
-def check_newness_user(telegram_id: str) -> bool:
-    cur = con.cursor()
-    result = cur.execute(
-            f"""SELECT token FROM bot_user
-            WHERE telegram_id = {telegram_id}"""
-            ).fetchall()
-    if len(result) > 0: return True
-
-    return False
-
-
-def save_new_user(telegram_id: str, API_TOKEN: str) -> None:
-    cur = con.cursor()
-    cur.execute(
-            f"""INSERT INTO bot_user(telegram_id, token) 
-            VALUES ('{telegram_id}', '{API_TOKEN}')"""
+def save_new_user(telegram_id: int, API_TOKEN: str) -> None:
+    db_sess = create_session()
+    user = User(
+            telegram_id=telegram_id, 
+            api_token=API_TOKEN
             )
-    con.commit()
+    db_sess.add(user)
+    db_sess.commit()
+
+
+def get_api_token(telegram_id: str) -> str:
+    db_sess = create_session()
+    return db_sess.query(User).filter(User.telegram_id == telegram_id).first()

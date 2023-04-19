@@ -1,4 +1,7 @@
+from config import PATH_TO_DB
+from data.db_session import global_init
 from create_bot import  dp
+from services import db
 from handlers import (
         start, 
         help_, 
@@ -21,6 +24,9 @@ from aiogram import types
 
 
 def main():
+    global_init(PATH_TO_DB)
+
+
     start.register_handlers_start(dp)
     help_.register_handlers_help(dp)
     shop.register_handlers_shop(dp)

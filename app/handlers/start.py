@@ -17,7 +17,7 @@ class NewCerw(StatesGroup):
 #@dp.message_handler(commands=['start'], state=None)
 async def cmd_start(message: types.Message):
     user_id = str(message.from_id)
-    if db.check_newness_user(user_id):
+    if db.get_api_token(user_id):
         await message.reply(render_template("not_new_user.j2"),
                             parse_mode="HTML",
                             reply_markup=kb)
@@ -40,14 +40,12 @@ async def get_crew_name(message: types.Message, state: FSMContext):
     # save api token
     API_TOKEN = response["token"]
     db.save_new_user(user_id, API_TOKEN)
-    config.API_TOKEN = API_TOKEN
 
     # save crew
     await state.finish()
     content = {
             "crew_name": crew_name, 
             }
-    config.CREW_NAME = crew_name
 
     # send message
     await message.answer(render_template("sucsess_start.j2", content), 
