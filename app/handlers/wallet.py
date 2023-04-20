@@ -1,6 +1,5 @@
 from template import render_template
 from services import api, db
-import config
 
 from aiogram import types, Dispatcher
 

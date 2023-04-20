@@ -1,6 +1,5 @@
 from template import render_template
 from services import api, db
-import config
 
 from aiogram import types, Dispatcher
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -12,7 +11,7 @@ details = InlineKeyboardMarkup(row_width=1).add(button_details)
 
 
 async def cmd_ship(message: types.Message):
-    API_TOKEN = db.get_api_token(str(message.from_id))
+    API_TOKEN = db.get_api_token(message.from_id)
     response = api.get_ship(API_TOKEN)
     response["crew_name"] = api.get_crew(API_TOKEN)["crew_name"]
 
@@ -20,13 +19,20 @@ async def cmd_ship(message: types.Message):
                          parse_mode="HTML",
                          reply_markup=details)
 
+
 async def ship_details(callback: types.CallbackQuery):
     response = api.get_ship(
-                db.get_api_token(str(callback.message.from_id))
+                db.get_api_token(callback.message.from_id)
             )
 
+    numbers = InlineKeyboardMarkup(row_width=5)
+    for i, detail in enumerate(response["details"]):
+        button = InlineKeyboardButton(text=str(i + 1), callback_data=f"detail_num_{detail['id']}_{detail['kind']['name']}")
+        numbers.insert(button)
+
     await callback.message.answer(render_template("ship_details.j2", data=response),
-                                  parse_mode="HTML")
+                                  parse_mode="HTML", 
+                                  reply_markup=numbers)
     await callback.answer()
 
 
