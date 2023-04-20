@@ -30,12 +30,15 @@ async def cmd_start(message: types.Message):
 
 #@dp.message_handler(state=NewCerw.crew_name)
 async def get_crew_name(message: types.Message, state: FSMContext):
-    crew_name, user_id = message.text, str(message.from_id)
+    crew_name, user_id = message.text, message.from_id
 
     # verificatin
     response = api.create_crew(crew_name) 
-    if response["status"] == -1:
-        return await message.reply(render_template("name_error.j2"), parse_mode="HTML")
+    try :
+        if response["message"]:
+            return await message.reply(render_template("name_error.j2"), parse_mode="HTML")
+    except Exception:
+        pass
     
     # save api token
     API_TOKEN = response["token"]

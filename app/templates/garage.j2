@@ -1,2 +1,46 @@
-Доборо пожаловать в обитель тюнинга и прокачки!
-Что сейчас будем делать?
+{% set ignore_item =  ["id", 
+                       "order", 
+                       "upgrade_cost", 
+                       "type_id", 
+                       "name", 
+                       "kind", 
+                       "required", 
+                       "cost", ]  
+%} 
+{% set human_name = {"health": "жизнеспособность", 
+                     "cost": "цена в Qk", 
+                     "order": "приорететность", 
+                     "level": "уровень", 
+                     "upgrade_cost": "цена прокачки в Qk", 
+                     "name": "название", 
+                     "description": "описание", 
+                     "power_generation": "вырабатываемая энергия", 
+                     "power_consumption": "потребляемая энергия", 
+                     "accel_factor": "коэф. ускорения загрузки дуэли", 
+                     "mobility": "добавляет к мобильности", 
+                     "stability": "добавляет к стабильности", 
+                     "damage_absorption": "поглащение урона", 
+                     "damage": "урон", 
+                    }
+%}
+
+
+<b>{{ detail_with_emoji[category_name] }}</b><br>
+-------------------<br>
+{% for detail in details %}
+
+    <b>{{ loop.index }}. {{ detail["name"] }}</b> <br>
+
+    {% if detail["health"] %}
+        {{ detail["health"] }}/{{ detail["max_health"] }} HP; 
+    {% endif %}
+    {{ detail["level"] }} LVL<br>
+    {% if detail["damage"] %}
+        урон: {{ detail["damage"] }}<br>
+    {% endif %}
+    {% if detail["required"] %}
+        <i>детяль является обязательной</i><br>
+    {% endif %}
+
+    -------------------<br>
+{% endfor %}
