@@ -1,12 +1,10 @@
 CREATE_CREW = {
-                "token": "oGmeLokYjCxJk-0ztVipcv5pmomkmLXbvkC-lrTarK0", 
-                "status": 0, 
-                "linked_users": []
+                "token": "xBD0ZBsqI1_YJ0JPfG-TNXPBGm6dKKc3fXJhkwZ2qp4", 
                }
 
 
 GET_CREW = {
-                "crew_name": "Хомяки",  
+                "crew_name": "sfg",  
                 "currency": 234, 
            }
 
@@ -18,6 +16,7 @@ GET_SHIP = {
                             "id": 125432, 
                             # --- base features ---
                             "health": 75, 
+                            "max_health": 100,
                             "cost": 100, 
                             "order": 1, 
                             "required": True, 
@@ -49,6 +48,7 @@ GET_SHIP = {
                             "id": 9234, 
                             # --- base features ---
                             "health": None, 
+                            "max_health": None,
                             "cost": 1000, 
                             "order": 2, 
                             "required": False, 
@@ -76,6 +76,71 @@ GET_SHIP = {
                             "stability": None, 
                             "damage_absorption": None, 
                             "damage": 50
+                        }, 
+                        {
+                            "id": 9234, 
+                            # --- base features ---
+                            "health": None, 
+                            "max_health": None,
+                            "cost": 1000, 
+                            "order": 2, 
+                            "required": False, 
+                            # --- leveling ---
+                            "level": 2, 
+                            "upgrade_cost": 10_000, 
+                            # --- about ---
+                            "name": "Артиллерийская установка", 
+                            "description": "Большая конструкция, который управляет \
+                                    целый мини-экипаж. В ней есть куча маленьких орудий, \
+                                    а также полно тяжелого вооружения.", 
+                            # --- typed ---
+                            "type_id": 3, 
+                            "kind": {"id": 12, 
+                                    "name": "Корпус", 
+                                    "discription": "“Тело” звездолёта. Основа корабля. \
+                                            Не улучшаемый статичный компонент, \
+                                            определяющий его базовые характеристики."
+                                    }, 
+                            # --- special futears ---
+                            "power_generation": None, 
+                            "power_consumption": None, 
+                            "accel_factor": None, 
+                            "mobility": None, 
+                            "stability": None, 
+                            "damage_absorption": None, 
+                            "damage": 50
+                        }, 
+                        {
+                            "id": 125432, 
+                            # --- base features ---
+                            "health": 75, 
+                            "max_health": 100,
+                            "cost": 100, 
+                            "order": 1, 
+                            "required": True, 
+                            # --- leveling ---
+                            "level": 2, 
+                            "upgrade_cost": 10_000, 
+                            # --- about ---
+                            "name": "Мифриловый корпус", 
+                            "description": "Укрепленный и расширенный базовый корпус. \
+                                    Увеличивает количество обвесов на 2", 
+                            # --- typed ---
+                            "type_id": 3, 
+                            "kind": {"id": 12, 
+                                    "name": "Корпус", 
+                                    "discription": "“Тело” звездолёта. Основа корабля. \
+                                            Не улучшаемый статичный компонент, \
+                                            определяющий его базовые характеристики."
+                                    }, 
+                            # --- special futears ---
+                            "power_generation": None, 
+                            "power_consumption": None, 
+                            "accel_factor": None, 
+                            "mobility": None, 
+                            "stability": None, 
+                            "damage_absorption": None, 
+                            "damage": 0
                         }, 
                     ], 
             "health": 200, 
@@ -188,6 +253,230 @@ GARAGE = {
                                                 }
                                             ],
                             "Орудие": [
+                                        {
+                                            "id": 9234, 
+                                            # --- base features ---
+                                            "health": None, 
+                                            "cost": 1000, 
+                                            "order": 2, 
+                                            "required": False, 
+                                            # --- leveling ---
+                                            "level": 2, 
+                                            "upgrade_cost": 10_000, 
+                                            # --- about ---
+                                            "name": "Артиллерийская установка", 
+                                            "description": "Большая конструкция, который управляет \
+                                                    целый мини-экипаж. В ней есть куча маленьких орудий, \
+                                                    а также полно тяжелого вооружения.", 
+                                            # --- typed ---
+                                            "type_id": 3, 
+                                            "kind": {"id": 12, 
+                                                    "name": "Корпус", 
+                                                    "discription": "“Тело” звездолёта. Основа корабля. \
+                                                            Не улучшаемый статичный компонент, \
+                                                            определяющий его базовые характеристики."
+                                                    }, 
+                                            # --- special futears ---
+                                            "power_generation": None, 
+                                            "power_consumption": None, 
+                                            "accel_factor": None, 
+                                            "mobility": None, 
+                                            "stability": None, 
+                                            "damage_absorption": None, 
+                                            "damage": 50
+                                        },
+                                        {
+                                            "id": 9234, 
+                                            # --- base features ---
+                                            "health": None, 
+                                            "cost": 1000, 
+                                            "order": 2, 
+                                            "required": False, 
+                                            # --- leveling ---
+                                            "level": 2, 
+                                            "upgrade_cost": 10_000, 
+                                            # --- about ---
+                                            "name": "Артиллерийская установка", 
+                                            "description": "Большая конструкция, который управляет \
+                                                    целый мини-экипаж. В ней есть куча маленьких орудий, \
+                                                    а также полно тяжелого вооружения.", 
+                                            # --- typed ---
+                                            "type_id": 3, 
+                                            "kind": {"id": 12, 
+                                                    "name": "Корпус", 
+                                                    "discription": "“Тело” звездолёта. Основа корабля. \
+                                                            Не улучшаемый статичный компонент, \
+                                                            определяющий его базовые характеристики."
+                                                    }, 
+                                            # --- special futears ---
+                                            "power_generation": None, 
+                                            "power_consumption": None, 
+                                            "accel_factor": None, 
+                                            "mobility": None, 
+                                            "stability": None, 
+                                            "damage_absorption": None, 
+                                            "damage": 50
+                                        },
+                                        {
+                                            "id": 9234, 
+                                            # --- base features ---
+                                            "health": None, 
+                                            "cost": 1000, 
+                                            "order": 2, 
+                                            "required": False, 
+                                            # --- leveling ---
+                                            "level": 2, 
+                                            "upgrade_cost": 10_000, 
+                                            # --- about ---
+                                            "name": "Артиллерийская установка", 
+                                            "description": "Большая конструкция, который управляет \
+                                                    целый мини-экипаж. В ней есть куча маленьких орудий, \
+                                                    а также полно тяжелого вооружения.", 
+                                            # --- typed ---
+                                            "type_id": 3, 
+                                            "kind": {"id": 12, 
+                                                    "name": "Корпус", 
+                                                    "discription": "“Тело” звездолёта. Основа корабля. \
+                                                            Не улучшаемый статичный компонент, \
+                                                            определяющий его базовые характеристики."
+                                                    }, 
+                                            # --- special futears ---
+                                            "power_generation": None, 
+                                            "power_consumption": None, 
+                                            "accel_factor": None, 
+                                            "mobility": None, 
+                                            "stability": None, 
+                                            "damage_absorption": None, 
+                                            "damage": 50
+                                        },
+                                        {
+                                            "id": 9234, 
+                                            # --- base features ---
+                                            "health": None, 
+                                            "cost": 1000, 
+                                            "order": 2, 
+                                            "required": False, 
+                                            # --- leveling ---
+                                            "level": 2, 
+                                            "upgrade_cost": 10_000, 
+                                            # --- about ---
+                                            "name": "Артиллерийская установка", 
+                                            "description": "Большая конструкция, который управляет \
+                                                    целый мини-экипаж. В ней есть куча маленьких орудий, \
+                                                    а также полно тяжелого вооружения.", 
+                                            # --- typed ---
+                                            "type_id": 3, 
+                                            "kind": {"id": 12, 
+                                                    "name": "Корпус", 
+                                                    "discription": "“Тело” звездолёта. Основа корабля. \
+                                                            Не улучшаемый статичный компонент, \
+                                                            определяющий его базовые характеристики."
+                                                    }, 
+                                            # --- special futears ---
+                                            "power_generation": None, 
+                                            "power_consumption": None, 
+                                            "accel_factor": None, 
+                                            "mobility": None, 
+                                            "stability": None, 
+                                            "damage_absorption": None, 
+                                            "damage": 50
+                                        },
+                                        {
+                                            "id": 9234, 
+                                            # --- base features ---
+                                            "health": None, 
+                                            "cost": 1000, 
+                                            "order": 2, 
+                                            "required": False, 
+                                            # --- leveling ---
+                                            "level": 2, 
+                                            "upgrade_cost": 10_000, 
+                                            # --- about ---
+                                            "name": "Артиллерийская установка", 
+                                            "description": "Большая конструкция, который управляет \
+                                                    целый мини-экипаж. В ней есть куча маленьких орудий, \
+                                                    а также полно тяжелого вооружения.", 
+                                            # --- typed ---
+                                            "type_id": 3, 
+                                            "kind": {"id": 12, 
+                                                    "name": "Корпус", 
+                                                    "discription": "“Тело” звездолёта. Основа корабля. \
+                                                            Не улучшаемый статичный компонент, \
+                                                            определяющий его базовые характеристики."
+                                                    }, 
+                                            # --- special futears ---
+                                            "power_generation": None, 
+                                            "power_consumption": None, 
+                                            "accel_factor": None, 
+                                            "mobility": None, 
+                                            "stability": None, 
+                                            "damage_absorption": None, 
+                                            "damage": 50
+                                        },
+                                        {
+                                            "id": 9234, 
+                                            # --- base features ---
+                                            "health": None, 
+                                            "cost": 1000, 
+                                            "order": 2, 
+                                            "required": False, 
+                                            # --- leveling ---
+                                            "level": 2, 
+                                            "upgrade_cost": 10_000, 
+                                            # --- about ---
+                                            "name": "Артиллерийская установка", 
+                                            "description": "Большая конструкция, который управляет \
+                                                    целый мини-экипаж. В ней есть куча маленьких орудий, \
+                                                    а также полно тяжелого вооружения.", 
+                                            # --- typed ---
+                                            "type_id": 3, 
+                                            "kind": {"id": 12, 
+                                                    "name": "Корпус", 
+                                                    "discription": "“Тело” звездолёта. Основа корабля. \
+                                                            Не улучшаемый статичный компонент, \
+                                                            определяющий его базовые характеристики."
+                                                    }, 
+                                            # --- special futears ---
+                                            "power_generation": None, 
+                                            "power_consumption": None, 
+                                            "accel_factor": None, 
+                                            "mobility": None, 
+                                            "stability": None, 
+                                            "damage_absorption": None, 
+                                            "damage": 50
+                                        },
+                                        {
+                                            "id": 9234, 
+                                            # --- base features ---
+                                            "health": None, 
+                                            "cost": 1000, 
+                                            "order": 2, 
+                                            "required": False, 
+                                            # --- leveling ---
+                                            "level": 2, 
+                                            "upgrade_cost": 10_000, 
+                                            # --- about ---
+                                            "name": "Артиллерийская установка", 
+                                            "description": "Большая конструкция, который управляет \
+                                                    целый мини-экипаж. В ней есть куча маленьких орудий, \
+                                                    а также полно тяжелого вооружения.", 
+                                            # --- typed ---
+                                            "type_id": 3, 
+                                            "kind": {"id": 12, 
+                                                    "name": "Корпус", 
+                                                    "discription": "“Тело” звездолёта. Основа корабля. \
+                                                            Не улучшаемый статичный компонент, \
+                                                            определяющий его базовые характеристики."
+                                                    }, 
+                                            # --- special futears ---
+                                            "power_generation": None, 
+                                            "power_consumption": None, 
+                                            "accel_factor": None, 
+                                            "mobility": None, 
+                                            "stability": None, 
+                                            "damage_absorption": None, 
+                                            "damage": 50
+                                        },
                                         {
                                             "id": 9234, 
                                             # --- base features ---
