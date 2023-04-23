@@ -6,9 +6,8 @@ from aiogram import types, Dispatcher
 
 
 async def cmd_wallet(message: types.Message):
-    response = api.get_crew(
-                db.get_api_token(str(message.from_id))
-            )
+    API_TOKEN = db.get_api_token(message.from_id)
+    response = api.get_crew(API_TOKEN)
     await message.answer(render_template("wallet.j2", data=response), 
                          parse_mode="HTML")
 
