@@ -1,5 +1,6 @@
 from data.db_session import create_session
 from data.bot_user import User
+import config
 
 
 def save_new_user(telegram_id: int, API_TOKEN: str) -> None:
@@ -14,8 +15,7 @@ def save_new_user(telegram_id: int, API_TOKEN: str) -> None:
 
 def get_api_token(telegram_id: int) -> str or None:
     db_sess = create_session()
-    if token := db_sess.query(User).filter(User.telegram_id == telegram_id
-                                          ).first():
-        return token.api_token
+    token = db_sess.query(User).filter(User.telegram_id == telegram_id
+                                          ).first().api_token
 
-    return None
+    return token
