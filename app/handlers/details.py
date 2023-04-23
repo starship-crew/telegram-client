@@ -31,7 +31,7 @@ def get_numbers_keyboard(data: list, direction: str):
                 text=str(i + 1), callback_data=detail_personal_upgrade_page_cb.new(detail_id)
             )
         elif direction == "buy": 
-            detail_type_id = detail["kind"]["string_id"]
+            detail_type_id = detail["id"]
             button = InlineKeyboardButton(
                 text=str(i + 1), callback_data=detail_personal_buy_page_cb.new(detail_type_id)
             )

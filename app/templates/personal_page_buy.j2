@@ -30,9 +30,8 @@
 <i>{{ detail["description"] }}</i> <br>
 -------------------<br>
 {% if detail["health"] %}
-    ❤ {{ detail["health"] }}/{{ detail["max_health"] }} HP <br>
+    ❤ {{ detail["health"] }} HP <br>
 {% endif %}
-🏆 {{ detail["level"] }} LVL <br>
 {% for key, value in detail.items() %}
     {% if (key not in ignore_item) and (value) %}
 

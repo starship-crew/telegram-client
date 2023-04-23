@@ -37,10 +37,10 @@ def get_detail_copy(API_TOKEN: str, detail_id: int) -> dict:
     return response.json()
 
 
-def get_detail_type(API_TOKEN: str, key: str) -> dict:
-    request = f"{config.SERVER}/api/detail_types"
+def get_detail_type(API_TOKEN: str, detail_type_id: str) -> dict:
+    request = f"{config.SERVER}/api/detail"
     response = requests.get(request, params={"token": API_TOKEN, 
-                                             "key": key})
+                                             "id": detail_type_id})
     return response.json()
 
 
@@ -73,5 +73,5 @@ def get_store() -> dict:
 
 def buy_detail(API_TOKEN: str, detail_id: int) -> None:
     requset = f"{config.SERVER}/api/detail"
-    response = requset.post(requset, params={"token": API_TOKEN, 
+    response = requests.post(requset, params={"token": API_TOKEN, 
                                              "id": detail_id})

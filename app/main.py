@@ -6,6 +6,7 @@ from handlers import (
     start,
     help_,
     ship,
+    store,
     fight,
     garage,
     wallet,
@@ -31,6 +32,7 @@ def main():
     garage.register_handlers_garage(dp)
     ship.register_handlers_ship(dp)
     wallet.register_handlers_wallet(dp)
+    store.register_handlers_store(dp)
 
 
 if __name__ == "__main__":

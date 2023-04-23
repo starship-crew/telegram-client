@@ -7,15 +7,35 @@ from aiogram.utils.callback_data import CallbackData
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
+def check_have_detail(API_TOKEN: str, detail_id: int) -> bool:
+
+    detail_id = int(detail_id)
+
+    on_ship = api.get_ship(API_TOKEN)["detail_copies"]
+    in_garage = api.get_garage(API_TOKEN)["detail_copies"]
+    for i in on_ship:
+        if int(i["type_id"]) == detail_id:
+            return True
+
+    for _, value in in_garage.items():
+        for l in value:
+            if int(l["type_id"]) == detail_id:
+                return True
+    return False
+
+
 store_detail_list_cb = CallbackData("store_detail_list", "category_string_id")
 buy_detail_cb = CallbackData("buy_detial", "detail_type_id")
 detail_personal_buy_page_cb = CallbackData("personal_buy_page", "detail_type_id")
 
 
-def get_personal_buy_keboard(detail_type_id: str):
+def get_personal_buy_keboard(detail_type_id: str, cost: int):
+    if cost == 0:
+        return InlineKeyboardMarkup()
+
     return InlineKeyboardMarkup().row(
         InlineKeyboardButton(
-            text="Купить 💵",
+            text=f"💵 Купить за {cost}Qk",
             callback_data=buy_detail_cb.new(detail_type_id=detail_type_id),
         ),
     )
@@ -26,8 +46,8 @@ async def cmd_store(message: types.Message):
 
     detail_categories = InlineKeyboardMarkup(row_width=1)
     for i in response['detail_types']:
-        if response['details'][i['string_id']]:
-            button = InlineKeyboardButton(i['name'], callback_data=store_detail_list_cb.new(i['string_id']))
+        if response['details'][i['id']]:
+            button = InlineKeyboardButton(i['name'], callback_data=store_detail_list_cb.new(i['id']))
             detail_categories.insert(button)
 
     await message.answer("Кокого типа деталь тебя интересует?", 
@@ -44,7 +64,7 @@ async def store_detail_list(callback: types.CallbackQuery, callback_data: dict):
         response = api.get_store()
 
         for i in response["detail_types"]:
-            if i['string_id'] == category_string_id:
+            if i['id'] == category_string_id:
                 category_name = i['name']
 
         data = {
@@ -66,12 +86,11 @@ async def detail_personal_buy_page(callback: types.CallbackQuery, callback_data:
         detail_type_id = callback_data["detail_type_id"]
         API_TOKEN = db.get_api_token(callback.from_user.id)
 
-        detail = api.get_detail_type(API_TOKEN, "string_id")[detail_type_id]
-        print(detail)
+        detail = api.get_detail_type(API_TOKEN, detail_type_id)
 
-        buttons = get_personal_buy_keboard(detail_type_id=detail_type_id)
+        buttons = get_personal_buy_keboard(detail_type_id, detail['cost'])
         await callback.message.answer(
-            render_template("detail_personal_page.j2", data={"detail": detail}),
+            render_template("personal_page_buy.j2", data={"detail": detail}),
             reply_markup=buttons,
         )
         await callback.answer()
@@ -79,26 +98,25 @@ async def detail_personal_buy_page(callback: types.CallbackQuery, callback_data:
 
 @dp.callback_query_handler(buy_detail_cb.filter())
 async def buy_detail(callback: types.CallbackQuery, callback_data: dict):
-    print(callback_data)
-    detail_type_id = int(callback_data["detail_type_id"])
+    detail_type_id = callback_data["detail_type_id"]
     API_TOKEN = db.get_api_token(callback.from_user.id)
 
-    cost = int(api.get_detail_type(API_TOKEN, detail_type_id)["upgrade_cost"])
+    cost = int(api.get_detail_type(API_TOKEN, detail_type_id)["cost"])
     currency = api.get_crew(API_TOKEN)["currency"]
 
     if cost > currency:
         await callback.answer(f"Недостаточно средств")
         return
+    elif check_have_detail(API_TOKEN, detail_type_id):
+        await callback.answer(f"Деталь уже куплена")
+        return
 
     api.buy_detail(API_TOKEN, detail_type_id)
 
-    detail = api.get_detail_copy(API_TOKEN, detail_id)
-
-    buttons = get_personal_buy_keboard()
+    detail = api.get_detail_type(API_TOKEN, detail_type_id)
 
     await callback.message.edit_text(
-        render_template("detail_personal_page.j2", data={"detail": detail}),
-        reply_markup=buttons,
+        render_template("personal_page_buy.j2", data={"detail": detail}),
     )
     await callback.answer(f"-{cost} Qk")
 

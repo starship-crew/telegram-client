@@ -26,8 +26,8 @@ async def cmd_garage(message: types.Message):
 
     detail_categories = InlineKeyboardMarkup(row_width=1)
     for i in response['detail_types']:
-        if response['detail_copies'][i['string_id']]:
-            button = InlineKeyboardButton(i['name'], callback_data=garage_detail_list_cb.new(i['string_id']))
+        if response['detail_copies'][i['id']]:
+            button = InlineKeyboardButton(i['name'], callback_data=garage_detail_list_cb.new(i['id']))
             detail_categories.insert(button)
 
     await message.answer("Кокого типа деталь тебя интересует?", 
@@ -42,7 +42,7 @@ async def garage_list_details(callback: types.CallbackQuery, callback_data: dict
         response = api.get_garage(API_TOKEN)
 
         for i in response["detail_types"]:
-            if i['string_id'] == category_string_id:
+            if i['id'] == category_string_id:
                 category_name = i['name']
 
         data = {
