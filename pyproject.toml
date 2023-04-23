@@ -5,7 +5,7 @@ description = "Client for starship game, telgram-bot"
 authors = ["Alchemmist <anton.ingrish@gmail.com>", "Mark Meliksetyan <markmelix.com>"]
 license = "GPL-3.0-or-later"
 readme = "README.md"
-packages = [{include="starship_bot"}]
+packages = [{include="app"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
