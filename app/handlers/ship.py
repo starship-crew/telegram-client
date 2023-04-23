@@ -27,11 +27,11 @@ async def seted_details(callback: types.CallbackQuery):
     response = api.get_ship(API_TOKEN)
 
     if not response["detail_copies"]:
-        await callback.message.answer("На корабле нет деталей")
-        await callback.answer()
+        await callback.answer("На корабле нет деталей")
         return
 
-    numbers = get_numbers_keyboard(response['detail_copies'])
+    numbers = get_numbers_keyboard(response['detail_copies'],
+                                   "upgrade")
     await callback.message.answer(
         render_template("ship_details.j2", data=response), reply_markup=numbers
     )

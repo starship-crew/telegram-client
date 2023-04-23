@@ -4,8 +4,9 @@
                        "type_id", 
                        "name", 
                        "kind", 
-                       "required", 
-                       "cost", ]  
+                       "required",
+                       "discription", 
+                       "cost"]  
 %} 
 {% set human_name = {"health": "жизнеспособность", 
                      "cost": "цена в Qk", 
@@ -24,12 +25,11 @@
                     }
 %}
 
-
-<b>{{ detail_with_emoji[category_name] }}</b><br>
+<b>{{ category_name }}</b><br>
 -------------------<br>
-{% for detail in details %}
+{% for detail in detail_copies %}
 
-    <b>{{ loop.index }}. {{ detail["name"] }}</b> <br>
+    <b>{{ loop.index }}. {{ detail["name"] }} </b><br>
 
     {% if detail["health"] %}
         {{ detail["health"] }}/{{ detail["max_health"] }} HP; 
@@ -41,6 +41,5 @@
     {% if detail["required"] %}
         <i>детяль является обязательной</i><br>
     {% endif %}
-
     -------------------<br>
 {% endfor %}

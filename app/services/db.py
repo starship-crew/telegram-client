@@ -15,7 +15,10 @@ def save_new_user(telegram_id: int, API_TOKEN: str) -> None:
 
 def get_api_token(telegram_id: int) -> str or None:
     db_sess = create_session()
-    token = db_sess.query(User).filter(User.telegram_id == telegram_id
-                                          ).first().api_token
+    try:
+        token = db_sess.query(User).filter(User.telegram_id == telegram_id
+                                              ).first().api_token
+        return token
+    except Exception:
+        return None
 
-    return token

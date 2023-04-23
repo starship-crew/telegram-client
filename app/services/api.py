@@ -37,6 +37,13 @@ def get_detail_copy(API_TOKEN: str, detail_id: int) -> dict:
     return response.json()
 
 
+def get_detail_type(API_TOKEN: str, key: str) -> dict:
+    request = f"{config.SERVER}/api/detail_types"
+    response = requests.get(request, params={"token": API_TOKEN, 
+                                             "key": key})
+    return response.json()
+
+
 def detail_put_off(API_TOKEN: str, detail_id: int) -> None:
     request = f"{config.SERVER}/api/detail_copy"
     response = requests.put(request, params={"token": API_TOKEN, 
@@ -58,7 +65,13 @@ def upgrade_detail(API_TOKEN: str, detail_id: int) -> None:
                                              "action": "upgrade"})
 
 def get_store() -> dict:
-    request = f"{config.SERVER}/api/crew/store"
-    #response = requests.get(request)
-    response = api_response_example.GET_SHOP
-    return response#.json()
+    request = f"{config.SERVER}/api/store"
+    response = requests.get(request)
+    #response = api_response_example.GET_SHOP
+    return response.json()
+
+
+def buy_detail(API_TOKEN: str, detail_id: int) -> None:
+    requset = f"{config.SERVER}/api/detail"
+    response = requset.post(requset, params={"token": API_TOKEN, 
+                                             "id": detail_id})

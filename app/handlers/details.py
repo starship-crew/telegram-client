@@ -1,6 +1,7 @@
 from template import render_template
 from create_bot import dp
 from services import api, db
+from handlers.store import detail_personal_buy_page_cb, buy_detail_cb
 
 from aiogram.utils.callback_data import CallbackData
 from aiogram import types
@@ -21,13 +22,20 @@ detail_personal_upgrade_page_cb = CallbackData("personal_upgrade_page", "detail_
 edit_detail_cb = CallbackData("edit_detatil", "action", "detail_id")
 
 
-def get_numbers_keyboard(data: list):
+def get_numbers_keyboard(data: list, direction: str):
     numbers = InlineKeyboardMarkup(row_width=5)
     for i, detail in enumerate(data): 
-        detail_id = detail["id"] 
-        button = InlineKeyboardButton(
-            text=str(i + 1), callback_data=detail_personal_upgrade_page_cb.new(detail_id)
-        )
+        if direction == "upgrade":
+            detail_id = detail["id"] 
+            button = InlineKeyboardButton(
+                text=str(i + 1), callback_data=detail_personal_upgrade_page_cb.new(detail_id)
+            )
+        elif direction == "buy": 
+            detail_type_id = detail["kind"]["string_id"]
+            button = InlineKeyboardButton(
+                text=str(i + 1), callback_data=detail_personal_buy_page_cb.new(detail_type_id)
+            )
+
         numbers.insert(button)
     return numbers
 
@@ -43,7 +51,6 @@ def get_personal_upgrade_keboard(text: str, action: str, detail_id: int):
             callback_data=edit_detail_cb.new(action=action, detail_id=detail_id),
         ),
     )
-
 
 @dp.callback_query_handler(detail_personal_upgrade_page_cb.filter())
 async def detail_personal_upgrade_page(callback: types.CallbackQuery, callback_data: dict):
@@ -95,7 +102,6 @@ async def put_on_detail(callback: types.CallbackQuery, callback_data: dict):
     await callback.message.edit_reply_markup(
         get_personal_upgrade_keboard(text="Снять", action="put_off", detail_id=detail_id)
     )
-
 
 
 @dp.callback_query_handler(edit_detail_cb.filter(action="upgrade"))
