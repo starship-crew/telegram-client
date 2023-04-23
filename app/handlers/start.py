@@ -16,12 +16,11 @@ class NewCerw(StatesGroup):
 
 #@dp.message_handler(commands=['start'], state=None)
 async def cmd_start(message: types.Message):
-    user_id = str(message.from_id)
+    user_id = message.from_id
     if db.get_api_token(user_id):
-        await message.reply(render_template("not_new_user.j2"),
-                            parse_mode="HTML",
-                            reply_markup=kb)
-        await cmd_help(message)
+        await message.reply("Извини но у тебя уже есть экипаж.\
+ Одному пользователю доступно созоать лишь <b>один</b> экипаж.",
+                parse_mode="HTML")
     else:
         await NewCerw.crew_name.set()
         await message.answer(render_template("start.j2"), 
@@ -45,6 +44,8 @@ async def get_crew_name(message: types.Message, state: FSMContext):
     db.save_new_user(user_id, API_TOKEN)
 
     # save crew
+    api.create_crew(crew_name)
+
     await state.finish()
     content = {
             "crew_name": crew_name, 
