@@ -20,7 +20,8 @@ async def cmd_start(message: types.Message):
     if db.get_api_token(user_id):
         await message.reply("Извини но у тебя уже есть экипаж.\
  Одному пользователю доступно созоать лишь <b>один</b> экипаж.",
-                parse_mode="HTML")
+                parse_mode="HTML", 
+                            reply_markup=kb)
     else:
         await NewCerw.crew_name.set()
         await message.answer(render_template("start.j2"), 

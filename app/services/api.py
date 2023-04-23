@@ -64,6 +64,14 @@ def upgrade_detail(API_TOKEN: str, detail_id: int) -> None:
                                              "id": detail_id, 
                                              "action": "upgrade"})
 
+
+def fix_detail(API_TOKEN: str, detail_id: int) -> None:
+    request = f"{config.SERVER}/api/detail_copy"
+    response = requests.put(request, params={"token": API_TOKEN, 
+                                             "id": detail_id, 
+                                             "action": "fix"})
+
+
 def get_store() -> dict:
     request = f"{config.SERVER}/api/store"
     response = requests.get(request)

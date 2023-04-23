@@ -40,8 +40,8 @@ def get_numbers_keyboard(data: list, direction: str):
     return numbers
 
 
-def get_personal_upgrade_keboard(text: str, action: str, detail_id: int):
-    return InlineKeyboardMarkup().row(
+def get_personal_upgrade_keboard(text: str, action: str, detail_id: int, need_fix=False):
+    kb = InlineKeyboardMarkup(row_width=3).row(
         InlineKeyboardButton(
             text="LVL 🔼",
             callback_data=edit_detail_cb.new(action="upgrade", detail_id=detail_id),
@@ -49,8 +49,15 @@ def get_personal_upgrade_keboard(text: str, action: str, detail_id: int):
         InlineKeyboardButton(
             text=text,
             callback_data=edit_detail_cb.new(action=action, detail_id=detail_id),
-        ),
-    )
+        ),)
+
+    if need_fix:
+        kb.insert(
+                InlineKeyboardButton(
+                    text="🛠Починить",
+                    callback_data=edit_detail_cb.new(action="fix", detail_id=detail_id),
+                ))
+    return kb
 
 @dp.callback_query_handler(detail_personal_upgrade_page_cb.filter())
 async def detail_personal_upgrade_page(callback: types.CallbackQuery, callback_data: dict):
@@ -60,9 +67,15 @@ async def detail_personal_upgrade_page(callback: types.CallbackQuery, callback_d
 
         detail = api.get_detail_copy(API_TOKEN, detail_id)
 
+        need_fix = False
+        detail["health"] -= 1
+        if detail["health"] < detail["max_health"]:
+            need_fix = True
+
         buttons = get_personal_upgrade_keboard(text="Снять" if check_set_detail(API_TOKEN, detail_id) else "Установить", 
                                                action="put_off" if check_set_detail(API_TOKEN, detail_id) else "put_on", 
-                                               detail_id=detail_id)
+                                               detail_id=detail_id, 
+                                               need_fix=need_fix)
         await callback.message.answer(
             render_template("detail_personal_page.j2", data={"detail": detail}),
             reply_markup=buttons,
@@ -117,6 +130,36 @@ async def upgrade_detail(callback: types.CallbackQuery, callback_data: dict):
         return
 
     api.upgrade_detail(API_TOKEN, detail_id)
+
+    detail = api.get_detail_copy(API_TOKEN, detail_id)
+
+    action = "put_off" if check_set_detail(API_TOKEN, detail_id) else "put_on"
+
+    buttons = get_personal_upgrade_keboard(
+        text="Установить" if action == "put_on" else "Снять",
+        action=action,
+        detail_id=detail_id,
+    )
+    await callback.message.edit_text(
+        render_template("detail_personal_page.j2", data={"detail": detail}),
+        reply_markup=buttons,
+    )
+    await callback.answer(f"-{cost} Qk")
+
+
+@dp.callback_query_handler(edit_detail_cb.filter(action="fix"))
+async def fix_detail(callback: types.CallbackQuery, callback_data: dict):
+    detail_id = int(callback_data["detail_id"])
+    API_TOKEN = db.get_api_token(callback.from_user.id)
+
+    cost = int(api.get_detail_copy(API_TOKEN, detail_id)["repair_cost"])
+    currency = api.get_crew(API_TOKEN)["currency"]
+
+    if cost > currency:
+        await callback.answer(f"Недостаточно средств")
+        return
+
+    api.fix_detail(API_TOKEN, detail_id)
 
     detail = api.get_detail_copy(API_TOKEN, detail_id)
 

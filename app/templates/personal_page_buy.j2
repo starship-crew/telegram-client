@@ -23,11 +23,14 @@
                      "stability": "добавляет к стабильности", 
                      "damage_absorption": "поглащение урона", 
                      "damage": "урон", 
+                     "detail_limit": "максимум деталей", 
                     }
 %}
 
 <b>{{ detail["name"] }}</b><br>
-<i>{{ detail["description"] }}</i> <br>
+{% if detail["description"] %}
+    <i>{{ detail["description"] }}</i> <br>
+{% endif %}
 -------------------<br>
 {% if detail["health"] %}
     ❤ {{ detail["health"] }} HP <br>
