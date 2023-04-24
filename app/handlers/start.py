@@ -36,7 +36,7 @@ async def get_crew_name(message: types.Message, state: FSMContext):
     response = api.create_crew(crew_name) 
     try :
         if response["message"]:
-            return await message.reply(render_template("name_error.j2"), parse_mode="HTML")
+            return await message.reply(render_template("name_error.j2"))
     except Exception:
         pass
     

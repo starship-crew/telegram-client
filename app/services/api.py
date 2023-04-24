@@ -83,3 +83,11 @@ def buy_detail(API_TOKEN: str, detail_id: int) -> None:
     requset = f"{config.SERVER}/api/detail"
     response = requests.post(requset, params={"token": API_TOKEN, 
                                              "id": detail_id})
+
+
+def get_combat(API_TOKEN: str) -> dict:
+    request = f"{config.SERVER}/api/combat"
+    response = requests.get(request, params={"token": API_TOKEN})
+
+    return response.json()
+    
