@@ -26,18 +26,19 @@ async def cmd_fight(message: types.Message, state: FSMContext):
     kb_ready.row(button_yes, button_no)
 
     await message.answer("Готов к бою?", reply_markup=kb_ready)
-    await state.set_state(Fight.ready) 
+    await state.set_state(Fight.ready)
 
 
 async def ready(message: types.Message, state: FSMContext):
     if message.text == "✅ Да":
-        await message.answer("🔍 Начинаю посик соперника ...", 
-                             reply_markup=types.ReplyKeyboardRemove())
+        await message.answer(
+            "🔍 Начинаю поиск соперника ...", reply_markup=types.ReplyKeyboardRemove()
+        )
         await state.set_state(Fight.searched)
         return
-        
+
     await message.answer("Дуэль отменена", reply_markup=kb)
-    
+
 
 async def search(message: types.Message, state: FSMContext):
     API_TOKEN = db.get_api_token(message.from_id)
@@ -46,8 +47,7 @@ async def search(message: types.Message, state: FSMContext):
     print(combat)
 
     await bot.send_message(message.chat.id, "Ваш соперник:")
-    await bot.send_message(message.chat.id, 
-                     render_template("opponent.j2", combat))
+    await bot.send_message(message.chat.id, render_template("opponent.j2", combat))
 
 
 async def move(message: types.Message, state: FSMContext):
@@ -59,8 +59,8 @@ async def move(message: types.Message, state: FSMContext):
     kb_move = ReplyKeyboardMarkup(resize_keyboard=True)
     kb_move.row()
 
-#async def final(message: teypes.0
-    
+
+# async def final(message: teypes.0
 
 
 def register_handlers_fight(dp: Dispatcher):

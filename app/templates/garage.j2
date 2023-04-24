@@ -9,10 +9,10 @@
                        "cost"]  
 %} 
 {% set human_name = {"health": "жизнеспособность", 
-                     "cost": "цена в Qk", 
+                     "cost": "цена",
                      "order": "приорететность", 
                      "level": "уровень", 
-                     "upgrade_cost": "цена прокачки в Qk", 
+                     "upgrade_cost": "цена прокачки",
                      "name": "название", 
                      "description": "описание", 
                      "power_generation": "вырабатываемая энергия", 
@@ -39,7 +39,7 @@
         урон: {{ detail["damage"] }}<br>
     {% endif %}
     {% if detail["required"] %}
-        <i>детяль является обязательной</i><br>
+        <i>деталь является обязательной</i><br>
     {% endif %}
     -------------------<br>
 {% endfor %}
