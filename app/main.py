@@ -9,6 +9,7 @@ from handlers import (
     fight,
     garage,
     wallet,
+    music,
 )
 
 import logging
@@ -28,6 +29,7 @@ def main():
     ship.register_handlers_ship(dp)
     wallet.register_handlers_wallet(dp)
     store.register_handlers_store(dp)
+    music.register_handlers_audio(dp)
 
 
 if __name__ == "__main__":
