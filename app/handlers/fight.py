@@ -53,8 +53,6 @@ action2_kb = ReplyKeyboardMarkup(resize_keyboard=True)
 action2_kb.row(update_btn)
 
 action3_kb = ReplyKeyboardMarkup(resize_keyboard=True)
-action3_kb.row(attack_btn)
-action3_kb.row(dodge_btn)
 action3_kb.row(update_btn)
 action3_kb.row(quit_btn)
 
