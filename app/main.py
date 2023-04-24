@@ -1,7 +1,6 @@
 from config import PATH_TO_DB
 from data.db_session import global_init
 from create_bot import dp
-from services import db
 from handlers import (
     start,
     help_,
@@ -17,10 +16,6 @@ from aiogram import executor
 
 
 logging.basicConfig(level=logging.INFO)
-
-
-from template import render_template
-from aiogram import types
 
 
 def main():

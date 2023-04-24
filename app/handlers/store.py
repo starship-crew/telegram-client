@@ -8,7 +8,6 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def check_have_detail(API_TOKEN: str, detail_id: int) -> bool:
-
     detail_id = int(detail_id)
 
     on_ship = api.get_ship(API_TOKEN)["detail_copies"]
@@ -45,35 +44,36 @@ async def cmd_store(message: types.Message):
     response = api.get_store()
 
     detail_categories = InlineKeyboardMarkup(row_width=1)
-    for i in response['detail_types']:
-        if response['details'][i['id']]:
-            button = InlineKeyboardButton(i['name'], callback_data=store_detail_list_cb.new(i['id']))
+    for i in response["detail_types"]:
+        if response["details"][i["id"]]:
+            button = InlineKeyboardButton(
+                i["name"], callback_data=store_detail_list_cb.new(i["id"])
+            )
             detail_categories.insert(button)
 
-    await message.answer("Кокого типа деталь тебя интересует?", 
-                         reply_markup=detail_categories)
+    await message.answer(
+        "Какого типа деталь тебя интересует?", reply_markup=detail_categories
+    )
 
 
 @dp.callback_query_handler(store_detail_list_cb.filter())
 async def store_detail_list(callback: types.CallbackQuery, callback_data: dict):
     from handlers.details import get_numbers_keyboard
 
-
     if callback_data["@"] == "store_detail_list":
         category_string_id = callback_data["category_string_id"]
         response = api.get_store()
 
         for i in response["detail_types"]:
-            if i['id'] == category_string_id:
-                category_name = i['name']
+            if i["id"] == category_string_id:
+                category_name = i["name"]
 
         data = {
-                "category_name": category_name, 
-                "detail_copies": response['details'][category_string_id], 
-                }
+            "category_name": category_name,
+            "detail_copies": response["details"][category_string_id],
+        }
 
-        numbers = get_numbers_keyboard(response['details'][category_string_id], 
-                                       'buy')
+        numbers = get_numbers_keyboard(response["details"][category_string_id], "buy")
         await callback.message.answer(
             render_template("garage.j2", data=data), reply_markup=numbers
         )
@@ -82,13 +82,13 @@ async def store_detail_list(callback: types.CallbackQuery, callback_data: dict):
 
 @dp.callback_query_handler(detail_personal_buy_page_cb.filter())
 async def detail_personal_buy_page(callback: types.CallbackQuery, callback_data: dict):
-    if callback_data['@'] == "personal_buy_page":
+    if callback_data["@"] == "personal_buy_page":
         detail_type_id = callback_data["detail_type_id"]
         API_TOKEN = db.get_api_token(callback.from_user.id)
 
         detail = api.get_detail_type(API_TOKEN, detail_type_id)
 
-        buttons = get_personal_buy_keboard(detail_type_id, detail['cost'])
+        buttons = get_personal_buy_keboard(detail_type_id, detail["cost"])
         await callback.message.answer(
             render_template("personal_page_buy.j2", data={"detail": detail}),
             reply_markup=buttons,

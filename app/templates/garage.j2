@@ -32,7 +32,7 @@
     <b>{{ loop.index }}. {{ detail["name"] }} </b><br>
 
     {% if detail["health"] %}
-        {{ detail["health"] }}/{{ detail["max_health"] }} HP; 
+        {{ detail["health"] }}{% if detail["max_health"] %}/{{ detail["max_health"] }}{% endif %} HP;
     {% endif %}
     {{ detail["level"] }} LVL<br>
     {% if detail["damage"] %}
