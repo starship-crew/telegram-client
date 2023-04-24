@@ -47,8 +47,10 @@ async def ready(message: types.Message, state: FSMContext):
 async def search(message: types.Message, state: FSMContext):
     API_TOKEN = db.get_api_token(message.from_id)
 
-    await message.answer(
-        "🔍 Начинаю поиск соперника ...", reply_markup=types.ReplyKeyboardRemove()
+    await bot.send_message(
+        message.chat.id,
+        "🔍 Начинаю поиск соперника ...",
+        reply_markup=types.ReplyKeyboardRemove(),
     )
 
     while not api.get_combat(API_TOKEN).get("action", None):
@@ -85,6 +87,7 @@ async def action(message: types.Message, state: FSMContext):
     while (combat := api.get_combat(API_TOKEN))["won"] is None:
         await msg.edit_text(combat_text(combat))
         await msg.edit_reply_markup(action_reply_markup(combat))
+        await sleep(0.5)
 
     await state.finish()
 
