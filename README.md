@@ -1,5 +1,6 @@
 # Telegram bot for Starship
 Clien for starship-game
+
 Starship – текстовая экшн Telegram игра, задача игрока в которой – прокачка своего космического корабля и соревнование в боях с другими звездолётами.
 
 
