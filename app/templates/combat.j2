@@ -1,14 +1,6 @@
 {% if won is none %}
     Противник: <b>{{ crew["name"] }}</b><br>
-    {% if ship %}
-        {% for key, value in ship.items() %}
-            {% if value %}
-                {{ key }}: {{ value }}<br>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-
-    <br>
+    {{ship.health}} HP<br>
 
     {% if actions|length != 0 %}
     Ваш ход:
