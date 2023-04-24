@@ -38,6 +38,7 @@ async def ready(message: types.Message, state: FSMContext):
         return
 
     await message.answer("Дуэль отменена", reply_markup=kb)
+    await state.finish()
 
 
 async def search(message: types.Message, state: FSMContext):
