@@ -7,9 +7,9 @@ async def cmd_audio(message: types.Message):
         message.from_user.id,
         open("audio.mp3", "rb"),
         performer="Performer",
-        title="Космический саундтрек",
+        title="🎸 Космический саундтрек",
     )
 
 
 def register_handlers_audio(dp: Dispatcher):
-    dp.register_message_handler(cmd_audio, text="Космический саундтрек", state="*")
+    dp.register_message_handler(cmd_audio, text="🎸 Космический саундтрек", state="*")
