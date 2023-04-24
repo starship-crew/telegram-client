@@ -7,7 +7,12 @@ from keyboard import kb
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    KeyboardButton,
+    ReplyKeyboardMarkup,
+)
 
 
 class Fight(StatesGroup):
@@ -20,10 +25,10 @@ class Fight(StatesGroup):
 
 
 async def cmd_fight(message: types.Message, state: FSMContext):
-    button_yes = InlineKeyboardButton("✅ Да")
-    button_no = InlineKeyboardButton("❌ Нет")
+    button_yes = KeyboardButton("✅ Да")
+    button_no = KeyboardButton("❌ Нет")
 
-    kb_ready = InlineKeyboardMarkup(resize_keyboard=True)
+    kb_ready = ReplyKeyboardMarkup(resize_keyboard=True)
     kb_ready.row(button_yes, button_no)
 
     await message.answer("Готов к бою?", reply_markup=kb_ready)
@@ -53,10 +58,10 @@ async def search(message: types.Message, state: FSMContext):
 
 
 def action_reply_markup(combat):
-    kb = InlineKeyboardMarkup()
+    kb = ReplyKeyboardMarkup()
 
-    attack_btn = InlineKeyboardButton("⚔ Атака")
-    dodge_btn = InlineKeyboardButton("Уворот")
+    attack_btn = KeyboardButton("⚔ Атака")
+    dodge_btn = KeyboardButton("Уворот")
 
     if len(combat["actions"]) != 0:
         kb.row(attack_btn)
@@ -80,10 +85,6 @@ async def action(message: types.Message, state: FSMContext):
     while (combat := api.get_combat(API_TOKEN))["won"] is None:
         await msg.edit_text(combat_text(combat))
         await msg.edit_reply_markup(action_reply_markup(combat))
-
-    async with state.proxy() as data:
-        data["won"] = combat["won"]
-        data["last_msg_id"] = message.message_id
 
     await state.finish()
 
