@@ -1,8 +1,9 @@
 from asyncio import sleep
+from aiogram.utils.callback_data import CallbackData
 
 from aiogram.utils.exceptions import MessageNotModified
 from template import render_template
-from create_bot import bot
+from create_bot import bot, dp
 from services import api, db
 from keyboard import kb
 
@@ -10,6 +11,7 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import (
+    CallbackQuery,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     KeyboardButton,
@@ -19,11 +21,10 @@ from aiogram.types import (
 
 class Fight(StatesGroup):
     ready = State()
-    searched = State()
-    action = State()
-    final = State()
 
-    head = State()
+
+attack_cb = CallbackData("attack_action")
+dodge_cb = CallbackData("dodge_action")
 
 
 async def cmd_fight(message: types.Message, state: FSMContext):
@@ -37,34 +38,11 @@ async def cmd_fight(message: types.Message, state: FSMContext):
     await state.set_state(Fight.ready.state)
 
 
-async def ready(message: types.Message, state: FSMContext):
-    if message.text == "✅ Да":
-        await bot.send_message(
-            message.chat.id,
-            "🔍 Начинаю поиск соперника ...",
-            reply_markup=types.ReplyKeyboardRemove(),
-        )
-        await state.set_state(Fight.searched.state)
-        return
-
-    await message.answer("Дуэль отменена", reply_markup=kb)
-    await state.finish()
-
-
-async def search(message: types.Message, state: FSMContext):
-    API_TOKEN = db.get_api_token(message.from_id)
-
-    while not api.get_combat(API_TOKEN).get("action", None):
-        await sleep(0.5)
-
-    await state.set_state(Fight.action.state)
-
-
 def action_reply_markup(combat):
-    kb = ReplyKeyboardMarkup(resize_keyboard=True)
+    kb = InlineKeyboardMarkup(resize_keyboard=True)
 
-    attack_btn = KeyboardButton("⚔ Атака")
-    dodge_btn = KeyboardButton("Уворот")
+    attack_btn = InlineKeyboardButton("⚔ Атака", callback_data=attack_cb.new())
+    dodge_btn = InlineKeyboardButton("Уворот", callback_data=dodge_cb.new())
 
     if len(combat["actions"]) != 0:
         kb.row(attack_btn)
@@ -77,9 +55,20 @@ def combat_text(combat):
     return render_template("combat.j2", combat)
 
 
-async def action(message: types.Message, state: FSMContext):
+async def ready(message: types.Message, state: FSMContext):
+    if message.text != "✅ Да":
+        await message.answer("Дуэль отменена", reply_markup=kb)
+        await state.finish()
+
+    await bot.send_message(
+        message.chat.id,
+        "🔍 Начинаю поиск соперника ...",
+        reply_markup=types.ReplyKeyboardRemove(),
+    )
     API_TOKEN = db.get_api_token(message.from_id)
-    combat = api.get_combat(API_TOKEN)
+
+    while (combat := api.get_combat(API_TOKEN)).get("action", None):
+        await sleep(0.5)
 
     msg = await bot.send_message(
         message.chat.id, combat_text(combat), reply_markup=action_reply_markup(combat)
@@ -100,5 +89,19 @@ async def action(message: types.Message, state: FSMContext):
 def register_handlers_fight(dp: Dispatcher):
     dp.register_message_handler(cmd_fight, text="🔫 Дуэль", state="*")
     dp.register_message_handler(ready, state=Fight.ready)
-    dp.register_message_handler(search, state=Fight.searched)
-    dp.register_message_handler(action, state=Fight.action)
+
+
+@dp.callback_query_handler(attack_cb.filter())
+async def attack_action(callback: CallbackQuery, callback_data):
+    print("attack_action")
+    API_TOKEN = db.get_api_token(callback.from_user.id)
+    api.post_combat_action(API_TOKEN, "Attack")
+    await callback.answer()
+
+
+@dp.callback_query_handler(dodge_cb.filter())
+async def dodge_action(callback: CallbackQuery, callback_data):
+    print("dodge_action")
+    API_TOKEN = db.get_api_token(callback.from_user.id)
+    api.post_combat_action(API_TOKEN, "Dodge")
+    await callback.answer()
